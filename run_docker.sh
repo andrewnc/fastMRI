@@ -1,0 +1,1 @@
+sudo docker run -t -i --network=host  -v ~/Documents/cnp/fastMRI/:/home/fastMRI/ -v /mnt/pccfs/:/home/pccfs/ -w /home/fastMRI/ mri

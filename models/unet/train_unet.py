@@ -10,6 +10,7 @@ import pathlib
 import random
 import shutil
 import time
+import sys
 
 import numpy as np
 import torch
@@ -17,6 +18,9 @@ import torchvision
 from tensorboardX import SummaryWriter
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
+
+
+sys.path.append('/home/fastMRI')
 
 from common.args import Args
 from common.subsample import MaskFunc
@@ -256,7 +260,7 @@ def build_optim(args, params):
 
 
 def main(args):
-    args.exp_dir.mkdir(parents=True, exist_ok=True)
+    args.exp_dir.mkdir(parents=True)
     writer = SummaryWriter(log_dir=args.exp_dir / 'summary')
 
     if args.resume:
@@ -300,7 +304,7 @@ def create_arg_parser():
     parser.add_argument('--drop-prob', type=float, default=0.0, help='Dropout probability')
     parser.add_argument('--num-chans', type=int, default=32, help='Number of U-Net channels')
 
-    parser.add_argument('--batch-size', default=16, type=int, help='Mini batch size')
+    parser.add_argument('--batch-size', type=int, default=16, help='Mini batch size')
     parser.add_argument('--num-epochs', type=int, default=50, help='Number of training epochs')
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
     parser.add_argument('--lr-step-size', type=int, default=40,

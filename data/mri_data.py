@@ -7,6 +7,7 @@ LICENSE file in the root directory of this source tree.
 
 import pathlib
 import random
+from tqdm import tqdm
 
 import h5py
 from torch.utils.data import Dataset
@@ -42,7 +43,7 @@ class SliceData(Dataset):
             random.shuffle(files)
             num_files = round(len(files) * sample_rate)
             files = files[:num_files]
-        for fname in sorted(files):
+        for fname in tqdm(sorted(files)):
             kspace = h5py.File(fname, 'r')['kspace']
             num_slices = kspace.shape[0]
             self.examples += [(fname, slice) for slice in range(num_slices)]
@@ -53,6 +54,7 @@ class SliceData(Dataset):
     def __getitem__(self, i):
         fname, slice = self.examples[i]
         with h5py.File(fname, 'r') as data:
-            kspace = data['kspace'][slice]
+            kspace = data['kspace']
             target = data[self.recons_key][slice] if self.recons_key in data else None
             return self.transform(kspace, target, data.attrs, fname.name, slice)
+            # return kspace, target

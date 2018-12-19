@@ -13,6 +13,8 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
+sys.path.append('/home/fastMRI')
+
 from common.args import Args
 from common.utils import save_reconstructions
 from data import transforms
@@ -32,7 +34,7 @@ class DataTransform:
             which_challenge (str): Either "singlecoil" or "multicoil" denoting the dataset.
         """
         if which_challenge not in ('singlecoil', 'multicoil'):
-            raise ValueError(f'Challenge should either be "singlecoil" or "multicoil"')
+            raise ValueError('Challenge should either be "singlecoil" or "multicoil"')
         self.resolution = resolution
         self.which_challenge = which_challenge
 
@@ -70,7 +72,7 @@ class DataTransform:
 
 def create_data_loaders(args):
     data = SliceData(
-        root=args.data_path / f'{args.challenge}_{args.data_split}',
+        root=args.data_path / f"{args.challenge}_{args.data_split}",
         transform=DataTransform(args.resolution, args.challenge),
         sample_rate=1.,
         challenge=args.challenge

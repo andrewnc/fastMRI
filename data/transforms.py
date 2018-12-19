@@ -20,6 +20,7 @@ def to_tensor(data):
     Returns:
         torch.Tensor: PyTorch version of data
     """
+
     if np.iscomplexobj(data):
         data = np.stack((data.real, data.imag), axis=-1)
     return torch.from_numpy(data)
